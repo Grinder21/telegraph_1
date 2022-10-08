@@ -1,48 +1,46 @@
 <?php
 
 class TelegraphText {
-    public $title, $text, $author, $published, $slug = 'test.txt';
+    public $title, $text, $author, $published, $slug;
 
     public function __construct($author, $slug) {
         $this->author = $author;
         $this->slug = $slug;
         $this->published = date('Y-m-d H:i:s');
-        $this->storeText("Заголовок", "Тестовое сообщение", "Михаил Ефремов", "01.01.2022");
+        $this->storeText();
 
     }
 
-    public function storeText($title, $text, $author, $published) {
+    public function storeText() {
         $mas = [
-            'title' => $title,
-            'text' => $text,
-            'author' => $author,
-            'published' => $published,
+            'title' => $this->title,
+            'text' => $this->text,
+            'author' => $this->author,
+            'published' => $this->published,
         ];
         $result = serialize($mas);
         $slug = 'test.txt';
         file_put_contents($slug, $result);
     }
 
-    public function loadText($file, $mas) {
-        $file = file_get_contents($this->slug);
-        if (empty($file) === false) {
-            unserialize($file, $mas);
-            echo $mas[0]['text'];
-        } else {
-            echo "Данный файл пустой. Выберите другой...";
-        }
-    }
+//    public function loadText($file, $mas) {
+//        $file = file_get_contents($this->slug);
+//        if (empty($file) === false) {
+//            unserialize($file, $mas);
+//            echo $mas[0]['text'];
+//        } else {
+//            echo "Данный файл пустой. Выберите другой...";
+//        }
+//    }
 
-    public function editText($title, $text) {
-        $this->title = $title;
-        $this->text = $text;
-    }
+//    public function editText($title, $text) {
+//        $this->title = $title;
+//        $this->text = $text;
+//    }
 }
 
-$postTest = new TelegraphText();
-
-$postTest->title = "Заголовок поста";
-$postTest->text = "Тестовое сообщение";
-$postTest->author = "Михаил Ефремов";
-
-
+$postTest = new TelegraphText("Михаил Ефремов", "test.txt");
+$postTest->title = "Заголовок №1";
+$postTest->text = "Сообщение письма";
+$postTest->published = date('Y-m-d H:i:s');
+$postTest->storeText();
