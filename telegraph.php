@@ -1,9 +1,15 @@
 <?php
 
-class TelegraphText {
-    public $title, $text, $author, $published, $slug;
+class TelegraphText
+{
+    public $title;
+    public $text;
+    public $author;
+    public $published;
+    public $slug = 'test.txt';
 
-    public function __construct($author, $slug) {
+    public function __construct($author, $slug)
+    {
         $this->author = $author;
         $this->slug = $slug;
         $this->published = date('Y-m-d H:i:s');
@@ -11,7 +17,8 @@ class TelegraphText {
 
     }
 
-    public function storeText() {
+    public function storeText()
+    {
         $mas = [
             'title' => $this->title,
             'text' => $this->text,
@@ -19,24 +26,25 @@ class TelegraphText {
             'published' => $this->published,
         ];
         $result = serialize($mas);
-        $slug = 'test.txt';
-        file_put_contents($slug, $result);
+        file_put_contents($this->slug, $result);
     }
 
-//    public function loadText($file, $mas) {
-//        $file = file_get_contents($this->slug);
-//        if (empty($file) === false) {
-//            unserialize($file, $mas);
-//            echo $mas[0]['text'];
-//        } else {
-//            echo "Данный файл пустой. Выберите другой...";
-//        }
-//    }
+    public function loadText($mas)
+    {
+        $file = file_get_contents($this->slug);
+        if (empty($file) === false) {
+            unserialize($file, $mas);
+            echo $mas[1]['text'];
+        } else {
+            echo "Данный файл пустой. Выберите другой...";
+        }
+    }
 
-//    public function editText($title, $text) {
-//        $this->title = $title;
-//        $this->text = $text;
-//    }
+    public function editText($title, $text)
+    {
+        $this->title = $title;
+        $this->text = $text;
+    }
 }
 
 $postTest = new TelegraphText("Михаил Ефремов", "test.txt");
