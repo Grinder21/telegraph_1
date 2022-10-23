@@ -116,6 +116,7 @@ $test = new TelegraphText("Михаил Ефремов", 'test.txt');
 $test->editText('test text', 'test title');
 $test->storeText();
 $FileStorage->create($test);
+
 var_dump($FileStorage->slug);
 
 
