@@ -1,5 +1,6 @@
 <?php
 
+include 'telegraph.php';
 abstract class Storage
 {
     public $title;
@@ -31,7 +32,7 @@ abstract class Storage
 
 abstract class View
 {
-    public $storage; // $storage = new Object(), какой Object - не ясно
+    public $storage; // $storage = new Object()
 
     public function __construct()
     {
@@ -58,5 +59,39 @@ abstract class User
         // выводит список текстов, доступных пользователю для редактирования
     }
 }
+
+class FileStorage extends Storage
+{
+    public function create():TelegraphText
+    {
+        $file = file_get_contents($slug);
+        if (empty($file) === false)
+        {
+            $text = unserialize($file);
+            return $text;
+        }
+    }
+
+    public function read()
+    {
+        // TODO: Implement read() method.
+    }
+
+    public function update()
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function delete()
+    {
+        // TODO: Implement delete() method.
+    }
+
+    public function list()
+    {
+        // TODO: Implement list() method.
+    }
+}
+
 
 

@@ -6,7 +6,7 @@ class TelegraphText
     public $text;
     public $author;
     public $published;
-    public $slug = 'test.txt';
+    public $slug;
 
     public function __construct($author, $slug)
     {
