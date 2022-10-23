@@ -62,14 +62,32 @@ abstract class User
 
 class FileStorage extends Storage
 {
-    public function create():TelegraphText
+    public $slug;
+
+    public function create($object)
     {
-        $file = file_get_contents($slug);
-        if (empty($file) === false)
+        $object->$slug = $object->$slug . '_' . date('Y-m-d H:i:s');
+        $this->slug = $object->slug;
+        $filePutContent = file_put_contents($object->slug, serialize($object));
+
+        for ($i = 1; $i > 0; $i++)
         {
-            $text = unserialize($file);
-            return $text;
+            if (file_exists($object->slug))
+            {
+                if (file_exists($object->slug . '_' . $i))
+                {
+                    continue;
+                } else {
+                    $object->slug = $object->slug . '_' . $i;
+                    $filePutContent;
+                    break;
+                }
+            } else {
+                $filePutContent;
+                break;
+            }
         }
+        return $this->slug;
     }
 
     public function read()
@@ -93,5 +111,11 @@ class FileStorage extends Storage
     }
 }
 
+$FileStorage = new FileStorage();
+$test = new TelegraphText("Михаил Ефремов", 'test.txt');
+$test->editText('test text', 'test title');
+$test->storeText();
+$FileStorage->create($test);
+var_dump($FileStorage->slug);
 
 
