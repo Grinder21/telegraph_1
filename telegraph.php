@@ -47,8 +47,8 @@ class TelegraphText
     }
 }
 
-$postTest = new TelegraphText("Михаил Ефремов", "test.txt");
-$postTest->title = "Заголовок №1";
-$postTest->text = "Сообщение письма";
-$postTest->published = date('Y-m-d H:i:s');
-$postTest->storeText();
+//$postTest = new TelegraphText("Михаил Ефремов", "test.txt");
+//$postTest->title = "Заголовок №1";
+//$postTest->text = "Сообщение письма";
+//$postTest->published = date('Y-m-d H:i:s');
+//$postTest->storeText();

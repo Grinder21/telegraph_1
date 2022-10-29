@@ -3,12 +3,8 @@
 include 'telegraph.php';
 abstract class Storage
 {
-    public $title;
-    public $text;
-    public $author;
-    public $published;
-    public $slug;
-    abstract function create()
+
+    abstract function create(TelegraphText $telegraphText): string
     {
 
     }
@@ -62,37 +58,25 @@ abstract class User
 
 class FileStorage extends Storage
 {
-    public $slug;
-
-    public function create($object)
+    public function create(TelegraphText $telegraphText): string
     {
-        $object->$slug = $object->$slug . '_' . date('Y-m-d H:i:s');
-        $this->slug = $object->slug;
-        $filePutContent = file_put_contents($object->slug, serialize($object));
-
-        for ($i = 1; $i > 0; $i++)
-        {
-            if (file_exists($object->slug))
-            {
-                if (file_exists($object->slug . '_' . $i))
-                {
-                    continue;
-                } else {
-                    $object->slug = $object->slug . '_' . $i;
-                    $filePutContent;
-                    break;
-                }
-            } else {
-                $filePutContent;
-                break;
-            }
+        $filename = $telegraphText->slug . '_' . date('Y-m-d H:i:s');
+        $i = 1;
+        while (file_exists($filename)) {
+            $filename = $telegraphText->slug . '_' . date('Y-m-d H:i:s') . '_' . $i;
         }
-        return $this->slug;
+
+        $telegraphText->slug = $filename;
+
+        file_put_contents($telegraphText->slug, serialize($telegraphText));
+
+        return $telegraphText->slug;
     }
 
-    public function read()
+    public function read(TelegraphText $telegraphText)
     {
-        // TODO: Implement read() method.
+        $file = file_get_contents($telegraphText->slug);
+        return ;
     }
 
     public function update()
@@ -111,12 +95,11 @@ class FileStorage extends Storage
     }
 }
 
-$FileStorage = new FileStorage();
+$telegraphText = new FileStorage();
 $test = new TelegraphText("Михаил Ефремов", 'test.txt');
 $test->editText('test text', 'test title');
 $test->storeText();
-$FileStorage->create($test);
-
-var_dump($FileStorage->slug);
+$telegraphText->create($test);
+var_dump($telegraphText->slug);
 
 
