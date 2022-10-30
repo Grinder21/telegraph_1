@@ -76,22 +76,28 @@ class FileStorage extends Storage
     public function read(TelegraphText $telegraphText)
     {
         $file = file_get_contents($telegraphText->slug);
-        return ;
+        return unserialize($file);
     }
 
-    public function update()
+    public function update(TelegraphText $telegraphText)
     {
-        // TODO: Implement update() method.
+        $result = file_put_contents($telegraphText->slug);
+        return serialize($result);
     }
 
-    public function delete()
+    public function delete(TelegraphText $telegraphText)
     {
-        // TODO: Implement delete() method.
+        $filename = $telegraphText->slug;
+        return unlink($filename);
     }
 
-    public function list()
+    public function list(TelegraphText $telegraphText)
     {
-        // TODO: Implement list() method.
+        $arr = [];
+        $dir = 'C:\xampp\htdocs\welcome';
+        $files = scandir($dir);
+        unserialize($files, $arr);
+        return $arr;
     }
 }
 
