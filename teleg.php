@@ -6,33 +6,35 @@ abstract class Storage
 
     abstract function create(TelegraphText $telegraphText): string
     {
-
+        return $telegraphText->slug;
+        // задача: создать объект в хранилище
+        // какой тут на вход нужен объект и куда и где его сохранить?
     }
-    abstract function read()
+    abstract function read($slug)
     {
-
+        // получить объект из хранилища
     }
     abstract function update()
     {
-
+        // обновить существующий объект в хранилище
     }
     abstract function delete()
     {
-
+        // удалить объект из хранилища
     }
     abstract function list()
     {
-
+        // возвращает массив всех объектов в хранилище
     }
 }
 
 abstract class View
 {
-    public $storage; // $storage = new Object()
+    public $storage; // $storage = new Object() так?
 
     public function __construct()
     {
-        //  передать объект подкласса Storage в качестве параметра конструктора.
+        //  как передать объект подкласса Storage в качестве параметра конструктора?
     }
     abstract function displayTextById()
     {
@@ -53,6 +55,7 @@ abstract class User
     abstract function getTextsToEdit()
     {
         // выводит список текстов, доступных пользователю для редактирования
+        // откуда получить этот список текстов, что это за массив?
     }
 }
 
@@ -73,25 +76,25 @@ class FileStorage extends Storage
         return $telegraphText->slug;
     }
 
-    public function read(TelegraphText $telegraphText)
+    public function read()
     {
         $file = file_get_contents($telegraphText->slug);
         return unserialize($file);
     }
 
-    public function update(TelegraphText $telegraphText)
+    public function update()
     {
         $result = file_put_contents($telegraphText->slug);
         return serialize($result);
     }
 
-    public function delete(TelegraphText $telegraphText)
+    public function delete()
     {
         $filename = $telegraphText->slug;
         return unlink($filename);
     }
 
-    public function list(TelegraphText $telegraphText)
+    public function list()
     {
         $arr = [];
         $dir = 'C:\xampp\htdocs\welcome';
