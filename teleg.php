@@ -3,29 +3,11 @@
 include 'telegraph.php';
 abstract class Storage
 {
-
-    abstract function create(TelegraphText $telegraphText): string
-    {
-        return $telegraphText->slug;
-        // задача: создать объект в хранилище
-        // какой тут на вход нужен объект и куда и где его сохранить?
-    }
-    abstract function read($slug)
-    {
-        // получить объект из хранилища
-    }
-    abstract function update()
-    {
-        // обновить существующий объект в хранилище
-    }
-    abstract function delete()
-    {
-        // удалить объект из хранилища
-    }
-    abstract function list()
-    {
-        // возвращает массив всех объектов в хранилище
-    }
+    abstract public function create(TelegraphText $telegraphText): string;
+    abstract public function read($id = null, $slug = null) : object;
+    abstract public function update($item, $id = null, $slug = null);
+    abstract public function delete($id = null, $slug = null);
+    abstract public function list() : array;
 }
 
 abstract class View
@@ -76,21 +58,22 @@ class FileStorage extends Storage
         return $telegraphText->slug;
     }
 
-    public function read()
+    public function read($id = null, $slug = null)
     {
-        $file = file_get_contents($telegraphText->slug);
+        $file = file_get_contents('test.txt');
         return unserialize($file);
+        // как тут вернуть объект? если его нет в параметре и убрать unserialize на файл
     }
 
-    public function update()
+    public function update($item, $id = null, $slug = null)
     {
-        $result = file_put_contents($telegraphText->slug);
+        $result = file_put_contents('test.txt');
         return serialize($result);
     }
 
-    public function delete()
+    public function delete($id = null, $slug = null)
     {
-        $filename = $telegraphText->slug;
+        $filename = $telegraphText->slug; // как тут обратиться к slug иначе, если в параметре нет объекта $telegraphText
         return unlink($filename);
     }
 
