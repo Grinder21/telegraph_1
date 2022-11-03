@@ -37,7 +37,6 @@ abstract class User
     abstract function getTextsToEdit()
     {
         // выводит список текстов, доступных пользователю для редактирования
-        // откуда получить этот список текстов, что это за массив?
     }
 }
 
@@ -60,9 +59,12 @@ class FileStorage extends Storage
 
     public function read($id = null, $slug = null)
     {
-        $file = file_get_contents('test.txt');
-        return unserialize($file);
-        // как тут вернуть объект? если его нет в параметре и убрать unserialize на файл
+        $path = 'C:\xampp\htdocs\welcome';
+        $dir = scandir($path);
+        foreach ($dir as $item) {
+            $file = file_get_contents($item);
+        }
+        return $file;
     }
 
     public function update($item, $id = null, $slug = null)
@@ -73,17 +75,27 @@ class FileStorage extends Storage
 
     public function delete($id = null, $slug = null)
     {
-        $filename = $telegraphText->slug; // как тут обратиться к slug иначе, если в параметре нет объекта $telegraphText
+        // тут уместна конструкция allowed_classes?
+        $filename = $telegraphText->slug;
         return unlink($filename);
     }
 
-    public function list()
+    public function list():array
     {
-        $arr = [];
-        $dir = 'C:\xampp\htdocs\welcome';
-        $files = scandir($dir);
-        unserialize($files, $arr);
-        return $arr;
+        $path = 'C:\xampp\htdocs\welcome';
+        $dir = scandir($path);
+        $arrayText = [];
+
+        foreach ($dir as $item) {
+            if (!is_dir($path . '\\' . $item)) {
+                $file = file_get_contents($item);
+                $text = unserialize($file, ['allowed_classes' => ['TelegraphText']]);
+                if ($text instanceof TelegraphText) {
+                    $arrayText[] = $text->text;
+                }
+            }
+        }
+        return $arrayText;
     }
 }
 
