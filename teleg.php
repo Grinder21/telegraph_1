@@ -1,7 +1,20 @@
 <?php
 
 include 'telegraph.php';
-abstract class Storage
+
+interface LoggerInterface
+{
+    public function logMessage($err);
+    public function lastMessages($messages) : array;
+}
+
+interface EventListenerInterface
+{
+    public function attachEvent($methodName, $callBack);
+    public function detouchEvent($methodName);
+}
+
+abstract class Storage implements LoggerInterface, EventListenerInterface
 {
     abstract public function create(TelegraphText $telegraphText): string;
     abstract public function read($id = null, $slug = null) : object;
@@ -12,7 +25,7 @@ abstract class Storage
 
 abstract class View
 {
-    public $storage; // $storage = new Object() так?
+    public $storage;
 
     public function __construct()
     {
@@ -28,7 +41,7 @@ abstract class View
     }
 }
 
-abstract class User
+abstract class User implements EventListenerInterface
 {
     public $id;
     public $name;
@@ -37,6 +50,16 @@ abstract class User
     abstract function getTextsToEdit()
     {
         // выводит список текстов, доступных пользователю для редактирования
+    }
+
+    public function attachEvent($methodName, $callBack)
+    {
+        // TODO: Implement attachEvent() method.
+    }
+
+    public function detouchEvent($methodName)
+    {
+        // TODO: Implement detouchEvent() method.
     }
 }
 
@@ -96,6 +119,26 @@ class FileStorage extends Storage
             }
         }
         return $arrayText;
+    }
+
+    public function logMessage($err)
+    {
+        // TODO: Implement logMessage() method.
+    }
+
+    public function lastMessages($messages): array
+    {
+        return $array = [];
+    }
+
+    public function attachEvent($methodName, $callBack = null)
+    {
+
+    }
+
+    public function detouchEvent($methodName)
+    {
+
     }
 }
 
