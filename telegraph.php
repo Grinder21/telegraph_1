@@ -2,11 +2,11 @@
 
 class TelegraphText
 {
-    public $title;
-    public $text;
-    public $author;
-    public $published;
-    public $slug;
+    private $title;
+    private $text;
+    private $author;
+    private $published;
+    private $slug;
 
     public function __construct($author, $slug)
     {

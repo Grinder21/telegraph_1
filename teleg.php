@@ -43,9 +43,9 @@ abstract class View
 
 abstract class User implements EventListenerInterface
 {
-    public $id;
-    public $name;
-    public $role;
+    protected $id;
+    protected $name;
+    protected $role;
 
     abstract function getTextsToEdit()
     {
@@ -140,7 +140,49 @@ class FileStorage extends Storage
     {
 
     }
+
+    public function __get($author)
+    {
+
+    }
+
+    public function __set($author)
+    {
+        if (strlen($author) >= 120)
+        {
+         return false;
+        }
+    }
+
+    public function __get($slug)
+    {
+
+    }
+
+    public function __set($slug)
+    {
+        if (preg_match("/^[a-zA-Z]$/", $slug) == true){
+            echo "Строка не соответствует формату" . PHP_EOL;
+            return false;
+        }
+    }
+
+    public function __get($published)
+    {
+        if ($published > date('Y-m-d H:i:s') || $published == date('Y-m-d H:i:s')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function __set($published)
+    {
+
+    }
+
 }
+
 
 $telegraphText = new FileStorage();
 $test = new TelegraphText("Михаил Ефремов", 'test.txt');
