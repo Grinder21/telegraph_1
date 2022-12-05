@@ -98,7 +98,6 @@ class FileStorage extends Storage
 
     public function delete($id = null, $slug = null)
     {
-        // тут уместна конструкция allowed_classes?
         $filename = $telegraphText->slug;
         return unlink($filename);
     }
@@ -108,7 +107,6 @@ class FileStorage extends Storage
         $path = 'C:\xampp\htdocs\welcome';
         $dir = scandir($path);
         $arrayText = [];
-
         foreach ($dir as $item) {
             if (!is_dir($path . '\\' . $item)) {
                 $file = file_get_contents($item);
@@ -123,7 +121,7 @@ class FileStorage extends Storage
 
     public function logMessage($err)
     {
-        // TODO: Implement logMessage() method.
+
     }
 
     public function lastMessages($messages): array
@@ -141,46 +139,58 @@ class FileStorage extends Storage
 
     }
 
-    public function __get($author)
-    {
 
-    }
+    // add new code
+    public function __get($name)
 
-    public function __set($author)
     {
-        if (strlen($author) >= 120)
-        {
-         return false;
+        switch ($name) {
+            case 'title':
+                return $this->title;
+            case 'text':
+                return $this->loadText();
+            case 'author':
+                return $this->author;
+            case 'published':
+                if ($this->published > date('Y-m-d H:i:s') || $this->published == date('Y-m-d H:i:s')) {
+                    return $this->published;
+                } else {
+                    return false;
+                }
+            case 'slug':
+                return $this->slug;
         }
     }
 
-    public function __get($slug)
+    public function __set($value)
     {
-
-    }
-
-    public function __set($slug)
-    {
-        if (preg_match("/^[a-zA-Z]$/", $slug) == true){
-            echo "Строка не соответствует формату" . PHP_EOL;
-            return false;
+        switch ($value) {
+            case 'title':
+                $value;
+                break;
+            case 'text':
+                $value;
+                $this->storeText();
+                break;
+            case 'author':
+                if (strlen($this->author) >= 120)
+                {
+                    return false;
+                } else {
+                    return $this->author;
+                }
+            case 'published':
+                $value;
+                break;
+            case 'slug':
+                if (preg_match("/^[a-zA-Z]$/", $this->slug) == true){
+                    echo "Строка не соответствует формату" . PHP_EOL;
+                    return false;
+                }
+                $value;
+                break;
         }
     }
-
-    public function __get($published)
-    {
-        if ($published > date('Y-m-d H:i:s') || $published == date('Y-m-d H:i:s')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function __set($published)
-    {
-
-    }
-
 }
 
 
