@@ -45,6 +45,59 @@ class TelegraphText
         $this->title = $title;
         $this->text = $text;
     }
+
+    // methods get and set
+
+    public function __get($name)
+
+    {
+        switch ($name) {
+            case 'title':
+                return $this->title;
+            case 'text':
+                return $this->loadText();
+            case 'author':
+                return $this->author;
+            case 'published':
+                if ($this->published > date('Y-m-d H:i:s') || $this->published == date('Y-m-d H:i:s')) {
+                    return $this->published;
+                } else {
+                    return false;
+                }
+            case 'slug':
+                return $this->slug;
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'title':
+                $this->title = $value;
+                break;
+            case 'text':
+                $this->text = $value;
+                $this->storeText();
+                break;
+            case 'author':
+                if (strlen($this->author) >= 120)
+                {
+                    return false;
+                } else {
+                    return $this->author = $value;
+                }
+            case 'published':
+                $this->published = $value;
+                break;
+            case 'slug':
+                if (preg_match("/^[a-zA-Z]$/", $this->slug) == true){
+                    echo "Строка не соответствует формату" . PHP_EOL;
+                    return false;
+                }
+                $this->slug = $value;
+                break;
+        }
+    }
 }
 
 //$postTest = new TelegraphText("Михаил Ефремов", "test.txt");

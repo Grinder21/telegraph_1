@@ -54,12 +54,12 @@ abstract class User implements EventListenerInterface
 
     public function attachEvent($methodName, $callBack)
     {
-        // TODO: Implement attachEvent() method.
+
     }
 
     public function detouchEvent($methodName)
     {
-        // TODO: Implement detouchEvent() method.
+
     }
 }
 
@@ -139,58 +139,6 @@ class FileStorage extends Storage
 
     }
 
-
-    // add new code
-    public function __get($name)
-
-    {
-        switch ($name) {
-            case 'title':
-                return $this->title;
-            case 'text':
-                return $this->loadText();
-            case 'author':
-                return $this->author;
-            case 'published':
-                if ($this->published > date('Y-m-d H:i:s') || $this->published == date('Y-m-d H:i:s')) {
-                    return $this->published;
-                } else {
-                    return false;
-                }
-            case 'slug':
-                return $this->slug;
-        }
-    }
-
-    public function __set($value)
-    {
-        switch ($value) {
-            case 'title':
-                $value;
-                break;
-            case 'text':
-                $value;
-                $this->storeText();
-                break;
-            case 'author':
-                if (strlen($this->author) >= 120)
-                {
-                    return false;
-                } else {
-                    return $this->author;
-                }
-            case 'published':
-                $value;
-                break;
-            case 'slug':
-                if (preg_match("/^[a-zA-Z]$/", $this->slug) == true){
-                    echo "Строка не соответствует формату" . PHP_EOL;
-                    return false;
-                }
-                $value;
-                break;
-        }
-    }
 }
 
 
