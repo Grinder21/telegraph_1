@@ -17,7 +17,7 @@ class TelegraphText
 
     }
 
-    public function storeText()
+    private function storeText()
     {
         $mas = [
             'title' => $this->title,
@@ -29,12 +29,12 @@ class TelegraphText
         file_put_contents($this->slug, $result);
     }
 
-    public function loadText($mas)
+    private function loadText($mas)
     {
         $file = file_get_contents($this->slug);
         if (empty($file) === false) {
             unserialize($file, $mas);
-            echo $mas[1]['text'];
+            return $this->text;
         } else {
             echo "Данный файл пустой. Выберите другой...";
         }
@@ -55,15 +55,11 @@ class TelegraphText
             case 'title':
                 return $this->title;
             case 'text':
-                return $this->loadText();
+                return $this->loadText($this->text);
             case 'author':
                 return $this->author;
             case 'published':
-                if ($this->published > date('Y-m-d H:i:s') || $this->published == date('Y-m-d H:i:s')) {
-                    return $this->published;
-                } else {
-                    return false;
-                }
+                return $this->published;
             case 'slug':
                 return $this->slug;
         }
@@ -87,8 +83,11 @@ class TelegraphText
                     return $this->author = $value;
                 }
             case 'published':
-                $this->published = $value;
-                break;
+                if ($this->published > date('Y-m-d H:i:s') || $this->published == date('Y-m-d H:i:s')) {
+                    return $this->published = $value;
+                } else {
+                    return false;
+                }
             case 'slug':
                 if (preg_match("/^[a-zA-Z]$/", $this->slug) == true){
                     echo "Строка не соответствует формату" . PHP_EOL;
