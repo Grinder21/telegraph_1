@@ -8,11 +8,13 @@ class TelegraphText
     private $published;
     private $slug;
 
-    public function __construct($author, $slug)
+    public function __construct(string $author, string $slug, string $text, string $title)
     {
         $this->author = $author;
         $this->slug = $slug;
         $this->published = date('Y-m-d H:i:s');
+        $this->text = $text;
+        $this->title = $title;
         $this->storeText();
 
     }
