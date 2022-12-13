@@ -34,6 +34,18 @@ class TelegraphText
         }
     }
 
+    private function storeText()
+    {
+        $mas = [
+            'title' => $this->title,
+            'text' => $this->text,
+            'author' => $this->author,
+            'published' => $this->published,
+        ];
+        $result = serialize($mas);
+        file_put_contents($this->slug, $result);
+    }
+
     public function editText($title, $text)
     {
         $this->title = $title;
