@@ -34,7 +34,7 @@ class TelegraphText
         }
     }
 
-    private function storeText()
+    public function storeText()
     {
         $mas = [
             'title' => $this->title,
@@ -78,6 +78,16 @@ class TelegraphText
                 $this->title = $value;
                 break;
             case 'text':
+                function myException($exception) {
+                    echo "<div style='width: 200px; height: 200px; background: deeppink;'><b>Exception: ". $exception->loadText() ."</b></div>";
+                }
+
+                set_exception_handler('myException');
+                if (strlen($value) < 1) {
+                    throw new Exception('Вы не ввели текст!');
+                } elseif (strlen($value) > 500) {
+                    throw new Exception('Вы превысили максимальное количество символов!');
+                }
                 $this->text = $value;
                 $this->storeText();
                 break;
