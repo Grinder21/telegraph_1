@@ -5,12 +5,12 @@
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-    $author = htmlspecialchars($_POST['author']);
-    $enterText = htmlspecialchars($_POST['enter-text']);
-    $enterMail = htmlspecialchars($_POST['enter-email']);
 
 
     if (isset($_POST['submit'])) {
+        $author = htmlspecialchars($_POST['author']);
+        $enterText = htmlspecialchars($_POST['enter-text']);
+        $enterMail = htmlspecialchars($_POST['enter-email']);
         if (!empty($author) && !empty($enterText) && !empty($enterMail)) {
             $newInputText = new TelegraphText();
             (new FileStorage)->create($newInputText);
@@ -22,16 +22,16 @@ try {
     //Server settings
     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->isSMTP();
-    $mail->Host       = 'smtp.example.com';
+    $mail->Host       = 'smtp.yandex.ru';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'user@example.com';
-    $mail->Password   = 'secret';
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Username   = 'selochkov@yandex.ru';
+    $mail->Password   = 'fsFS1221!';
+    $mail->SMTPSecure = 'ssl';
     $mail->Port       = 465;
 
     //Recipients
-    $mail->setFrom('from@example.com', 'Mailer');
-    $mail->addAddress('joe@example.net', 'Joe User');
+    $mail->setFrom('selochkov@yandex.ru', 'Sender');
+    $mail->addAddress($enterMail, 'Recipient');
     $mail->addReplyTo('info@example.com', 'Information');
     $mail->addCC('cc@example.com');
     $mail->addBCC('bcc@example.com');
@@ -43,7 +43,7 @@ try {
     //Content
     $mail->isHTML(true);
     $mail->Subject = 'Это копия вашего отправленного сообщения';
-    $mail->Body    = 'Это копия вашего письма:<p>$enterMail</p>';
+    $mail->Body    = 'Это копия вашего письма:<p>$enterText</p>';
     $mail->AltBody = 'На это сообщение не нужно отвечать';
 
     if($mail->send()) {

@@ -1,5 +1,6 @@
 <?php
 
+    require_once 'Storage.php';
     class FileStorage extends Storage
     {
 
@@ -18,7 +19,7 @@
         return $telegraphText->slug;
     }
 
-    public function read($id = null, $slug = null)
+    public function read($id = null, $slug = null):bool
     {
         $path = 'C:\xampp\htdocs\welcome';
         $dir = scandir($path);
@@ -28,14 +29,15 @@
         return $file;
     }
 
-    public function update($item, $id = null, $slug = null)
+    public function update($item, $id = null, $slug = null) : void
     {
         $result = file_put_contents('test.txt');
         return serialize($result);
     }
 
-    public function delete($id = null, $slug = null)
+    public function delete($slug = null): bool
     {
+        $telegraphText = TelegraphText::$telegparhText;
         $filename = $telegraphText->slug;
         return unlink($filename);
     }
@@ -56,4 +58,24 @@
         }
         return $arrayText;
     }
+
+        public function logMessage(string $message): void
+        {
+
+        }
+
+        public function lastMessages(int $countMessages): array
+        {
+            return $countMessages;
+        }
+
+        public function attachEvent(string $nameMethod, callable $callback): void
+        {
+
+        }
+
+        public function detouchEvent(string $nameMethod): void
+        {
+
+        }
     }
