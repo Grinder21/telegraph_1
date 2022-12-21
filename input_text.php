@@ -5,6 +5,10 @@
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
+    function myException($exception) {
+        echo "<div style='width: 200px; height: 200px; background: deeppink;'><b>Exception: ". $exception->loadText() ."</b></div>";
+    }
+    set_exception_handler('myException');
 
 
     if (isset($_POST['submit'])) {
@@ -51,13 +55,7 @@ try {
     };
 
 } catch (Exception $e) {
-
     echo "Ошибка отправки письма. Mailer Error: {$mail->ErrorInfo}";
-
-    function myException($exception) {
-        echo "<div style='width: 200px; height: 200px; background: deeppink;'><b>Exception: ". $exception->loadText() ."</b></div>";
-    }
-    set_exception_handler('myException');
 }
 ?>
     <html>
