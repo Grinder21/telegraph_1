@@ -10,11 +10,6 @@
         abstract public function update(string $object) : void;
         abstract public function delete(string $slug) : void;
         abstract public function list() : array;
-
-        abstract public function logMessage(string $message): void {};
-        abstract public function lastMessages(int $countMessages): array;
-        abstract public function attachEvent(string $nameMethod, callable $callback): void {};
-        abstract public function detouchEvent(string $nameMethod): void {};
     }
 
 

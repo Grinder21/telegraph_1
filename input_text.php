@@ -51,7 +51,13 @@ try {
     };
 
 } catch (Exception $e) {
+
     echo "Ошибка отправки письма. Mailer Error: {$mail->ErrorInfo}";
+
+    function myException($exception) {
+        echo "<div style='width: 200px; height: 200px; background: deeppink;'><b>Exception: ". $exception->loadText() ."</b></div>";
+    }
+    set_exception_handler('myException');
 }
 ?>
     <html>
@@ -59,6 +65,7 @@ try {
     <title>Form input text</title>
     </head>
     <body>
+
     <form method="post" action="input_text.php">
         <label for="author">Автор: </label>
         <input type="text" name="author">
@@ -70,7 +77,6 @@ try {
         <input type="email" name="enter-email">
 
         <button type="submit" value="Отправить"></button>
-
     </form>
     </body>
     </html>
